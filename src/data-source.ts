@@ -4,6 +4,7 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { Empresa } from './entities/Empresa';
 import { Usuario } from './entities/Usuario';
+import { Category } from './entities/Category';
 
 export const AppDataSource = new DataSource({
    type: 'postgres',
@@ -14,7 +15,7 @@ export const AppDataSource = new DataSource({
    database: process.env.DB_NAME || 'tu_basedatos',
    synchronize: true,
    logging: false,
-   entities: [Empresa, Usuario],
+   entities: [Empresa, Usuario, Category],
    migrations: [],
    subscribers: [],
 });
