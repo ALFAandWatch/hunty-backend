@@ -25,4 +25,12 @@ export class CategoryService {
          relations: ['parent'],
       });
    }
+
+   async getCategoryById(id: string): Promise<Category | null> {
+      const category = await this.categoryRepository.findOne({
+         where: { id },
+      });
+
+      return category;
+   }
 }

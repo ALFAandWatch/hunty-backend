@@ -34,4 +34,24 @@ export class CategoryController {
          res.status(500).json({ message: 'Error interno del servidor' });
       }
    }
+
+   static async getCategoryById(req: Request, res: Response) {
+      const { id } = req.params;
+
+      try {
+         const category = await categoryService.getCategoryById(id);
+
+         if (!category) {
+            res.status(404).json({ message: 'Categoría no encontrada' });
+            return;
+         }
+
+         res.status(200).json(category);
+         return;
+      } catch (error) {
+         console.error('Error al obtener categoría por ID:', error);
+         res.status(500).json({ message: 'Error interno del servidor' });
+         return;
+      }
+   }
 }

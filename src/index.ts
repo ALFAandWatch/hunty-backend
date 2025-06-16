@@ -3,6 +3,7 @@ import app from './server';
 import { AppDataSource } from './data-source';
 import { Category } from './entities/Category';
 import { categoriesSeedData } from './data/categories-data';
+import { seedDepartamentosIfEmpty } from './seed/seed-departamentos';
 
 const port = process.env.PORT || 3000;
 
@@ -42,6 +43,7 @@ const initialize = async () => {
       console.log('Database connection established successfully');
 
       await seedCategoriesIfEmpty();
+      await seedDepartamentosIfEmpty();
 
       app.listen(port, () => {
          console.log(`Server is running on http://localhost:${port}`);
