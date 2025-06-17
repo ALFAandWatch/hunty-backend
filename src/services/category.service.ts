@@ -29,6 +29,7 @@ export class CategoryService {
    async getCategoryById(id: string): Promise<Category | null> {
       const category = await this.categoryRepository.findOne({
          where: { id },
+         relations: ['parent'],
       });
 
       return category;
