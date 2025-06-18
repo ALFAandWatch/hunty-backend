@@ -1,5 +1,5 @@
 import { AppDataSource } from '../data-source';
-import { Empresa } from '../entities/Empresa';
+import { Empresa } from '../entities/EmpresaUsuario';
 import { Usuario } from '../entities/Usuario';
 import bcrypt from 'bcryptjs';
 

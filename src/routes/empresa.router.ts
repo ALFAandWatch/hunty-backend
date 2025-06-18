@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { getEmpresasDummy } from '../controllers/empresa.controller';
+import { getEmpresasFiltered } from '../controllers/empresa.controller';
 
 const empresaRouter = Router();
 
-empresaRouter.get('/dummy', getEmpresasDummy); // GET /api/empresas/dummy
+empresaRouter.get('/filtros', getEmpresasFiltered);
 
 export default empresaRouter;

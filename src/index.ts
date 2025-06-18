@@ -4,6 +4,7 @@ import { AppDataSource } from './data-source';
 import { Category } from './entities/Category';
 import { categoriesSeedData } from './data/categories-data';
 import { seedDepartamentosIfEmpty } from './seed/seed-departamentos';
+import { seedEmpresasIfEmpty } from './seed/seed-empresas';
 
 const port = process.env.PORT || 3000;
 
@@ -44,6 +45,7 @@ const initialize = async () => {
 
       await seedCategoriesIfEmpty();
       await seedDepartamentosIfEmpty();
+      await seedEmpresasIfEmpty();
 
       app.listen(port, () => {
          console.log(`Server is running on http://localhost:${port}`);

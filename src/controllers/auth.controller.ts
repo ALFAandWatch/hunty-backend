@@ -9,7 +9,7 @@ import {
 import { generateToken } from '../utils/jwt';
 
 import { Usuario } from '../entities/Usuario';
-import { Empresa } from '../entities/Empresa';
+import { Empresa } from '../entities/EmpresaUsuario';
 
 /********************** REGISTER USER *********************************/
 export const registerUserController = async (req: Request, res: Response) => {
