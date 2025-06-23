@@ -52,3 +52,13 @@ export const getEmpresasService = async (options: EmpresaFilterOptions) => {
       data: empresas,
    };
 };
+
+export const getEmpresaByIdService = async (id: number) => {
+   const empresa = await EmpresaPerfil.findOneBy({ id });
+
+   if (!empresa) {
+      throw new Error('Empresa no encontrada');
+   }
+
+   return empresa;
+};

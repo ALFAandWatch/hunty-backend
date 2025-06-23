@@ -40,6 +40,7 @@ export const seedEmpresasIfEmpty = async () => {
          formasDePagoDisponibles,
          faker.number.int({ min: 1, max: 4 })
       );
+      empresa.sitioWeb = faker.internet.url();
 
       await empresa.save();
       console.log(`✅ Empresa creada: ${empresa.nombre}`);

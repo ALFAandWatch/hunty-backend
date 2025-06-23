@@ -31,6 +31,9 @@ export class EmpresaPerfil extends BaseEntity {
    @Column()
    departamento: string;
 
+   @Column({ nullable: true })
+   sitioWeb?: string;
+
    @Column({ default: false })
    esPremium: boolean;
 
