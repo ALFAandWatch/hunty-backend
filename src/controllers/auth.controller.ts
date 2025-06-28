@@ -9,7 +9,7 @@ import {
 import { generateToken } from '../utils/jwt';
 
 import { Usuario } from '../entities/Usuario';
-import { Empresa } from '../entities/EmpresaUsuario';
+import { EmpresaUsuario } from '../entities/EmpresaUsuario';
 
 /********************** REGISTER USER *********************************/
 export const registerUserController = async (req: Request, res: Response) => {
@@ -57,7 +57,10 @@ export const loginController = async (req: Request, res: Response) => {
    } catch (_) {
       // Si no es usuario, intenta como empresa
       try {
-         const empresa: Empresa = await loginEmpresaService(email, password);
+         const empresa: EmpresaUsuario = await loginEmpresaService(
+            email,
+            password
+         );
          const token = generateToken({
             id: empresa.id,
             email: empresa.email,

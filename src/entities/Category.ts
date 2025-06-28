@@ -15,6 +15,9 @@ export class Category {
    @Column()
    name: string;
 
+   @Column({ nullable: true })
+   iconUrl?: string;
+
    @ManyToOne(() => Category, (category) => category.children, {
       nullable: true,
       onDelete: 'SET NULL',

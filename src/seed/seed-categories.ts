@@ -1,14 +1,20 @@
-import { AppDataSource } from '../data-source'; // importa tu DataSource
+import { AppDataSource } from '../data-source';
 import { categoriesSeedData } from '../data/categories-data';
 import { Category } from '../entities/Category';
 
-async function seedCategories() {
-   await AppDataSource.initialize();
+export async function seedCategoriesIfEmpty() {
    const categoryRepo = AppDataSource.getRepository(Category);
+   const count = await categoryRepo.count();
+
+   if (count > 0) {
+      console.log('✅ Categorías ya existen, seeder omitido.');
+      return;
+   }
 
    for (const parentData of categoriesSeedData) {
       const parent = categoryRepo.create({
          name: parentData.name,
+         iconUrl: parentData.iconUrl,
          parent: null,
       });
 
@@ -26,10 +32,4 @@ async function seedCategories() {
    }
 
    console.log('✅ Categorías insertadas con éxito');
-   await AppDataSource.destroy();
 }
-
-seedCategories().catch((e) => {
-   console.error('❌ Error al insertar categorías:', e);
-   process.exit(1);
-});

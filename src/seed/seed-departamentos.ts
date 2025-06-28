@@ -35,6 +35,6 @@ export const seedDepartamentosIfEmpty = async () => {
       await repo.save(entities);
       console.log('✅ Departamentos seeded');
    } else {
-      console.log('Departamentos already seeded');
+      console.log('✅ Departamentos ya existen, seeder omitido.');
    }
 };

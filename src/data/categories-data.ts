@@ -1,6 +1,7 @@
 type CategorySeed = {
    name: string;
    parent: string | null;
+   iconUrl?: string;
    children?: { name: string; parent: string }[];
 };
 
@@ -8,6 +9,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Tiendas',
       parent: null,
+      iconUrl: '/icons/category/tiendas.png',
       children: [
          { name: 'Supermercados', parent: 'Tiendas' },
          { name: 'Hipermercados', parent: 'Tiendas' },
@@ -141,6 +143,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Salones de belleza y spas',
       parent: null,
+      iconUrl: '/icons/category/belleza.png',
       children: [
          { name: 'Salones de belleza', parent: 'Salones de belleza y spas' },
          { name: 'Peluquerías', parent: 'Salones de belleza y spas' },
@@ -158,6 +161,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Restaurantes',
       parent: null,
+      iconUrl: '/icons/category/restaurantes.png',
       children: [
          { name: 'Restaurantes', parent: 'Restaurantes' },
          { name: 'Bares', parent: 'Restaurantes' },
@@ -177,6 +181,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Centros Médicos',
       parent: null,
+      iconUrl: '/icons/category/centrosMedicos.png',
       children: [
          { name: 'Consultorios médicos', parent: 'Centros Médicos' },
          { name: 'Clínicas dentales', parent: 'Centros Médicos' },
@@ -195,6 +200,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Servicios de reparación',
       parent: null,
+      iconUrl: '/icons/category/reparacion.png',
       children: [
          {
             name: 'Reparación de electrónica',
@@ -247,6 +253,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Ropa, calzados y accesorios',
       parent: null,
+      iconUrl: '/icons/category/ropa.png',
       children: [
          { name: 'Tiendas de ropa', parent: 'Ropa, calzados y accesorios' },
          { name: 'Joyerías', parent: 'Ropa, calzados y accesorios' },
@@ -285,6 +292,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Servicios para el hogar',
       parent: null,
+      iconUrl: '/icons/category/hogar.png',
       children: [
          {
             name: 'Servicios de transporte de carga',
@@ -373,6 +381,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Servicios Automotrices',
       parent: null,
+      iconUrl: '/icons/category/automotriz.png',
       children: [
          {
             name: 'Carrocería y reparación de autos',
@@ -407,6 +416,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Gimnasios',
       parent: null,
+      iconUrl: '/icons/category/gimnasios.png',
       children: [
          { name: 'Gimnasios', parent: 'Gimnasios' },
          { name: 'Gimnasios con clases de fitness', parent: 'Gimnasios' },
@@ -426,6 +436,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Clínicas veterinarias',
       parent: null,
+      iconUrl: '/icons/category/veterinarias.png',
       children: [
          { name: 'Clínicas veterinarias', parent: 'Clínicas veterinarias' },
          { name: 'Peluquerías caninas', parent: 'Clínicas veterinarias' },
@@ -445,6 +456,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Cursos de formación',
       parent: null,
+      iconUrl: '/icons/category/cursosFormacion.png',
       children: [
          { name: 'Escuelas de artes marciales', parent: 'Cursos de formación' },
          { name: 'Escuelas de baile', parent: 'Cursos de formación' },
@@ -472,6 +484,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Servicios Públicos',
       parent: null,
+      iconUrl: '/icons/category/serviciosPublicos.png',
       children: [
          { name: 'Organizaciones públicas', parent: 'Servicios Públicos' },
          { name: 'Residencias para mayores', parent: 'Servicios Públicos' },
@@ -502,6 +515,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Para los niños',
       parent: null,
+      iconUrl: '/icons/category/ninios.png',
       children: [
          { name: 'Educación preescolar', parent: 'Para los niños' },
          { name: 'Guarderías', parent: 'Para los niños' },
@@ -513,6 +527,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Centros de ocio',
       parent: null,
+      iconUrl: '/icons/category/ocio.png',
       children: [
          { name: 'Parques', parent: 'Centros de ocio' },
          { name: 'Empresas de gestión de eventos', parent: 'Centros de ocio' },
@@ -564,6 +579,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Construcción',
       parent: null,
+      iconUrl: '/icons/category/construccion.png',
       children: [
          {
             name: 'Empresas de arquitectura y construcción',
@@ -605,6 +621,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Farmacias',
       parent: null,
+      iconUrl: '/icons/category/farmacias.png',
       children: [
          { name: 'Farmacias y productos medicinales', parent: 'Farmacias' },
          { name: 'Medicamentos homeopáticos', parent: 'Farmacias' },
@@ -613,6 +630,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Discotecas',
       parent: null,
+      iconUrl: '/icons/category/discotecas.png',
       children: [
          { name: 'Discotecas con pista de baile', parent: 'Discotecas' },
          { name: 'Clubes de striptease', parent: 'Discotecas' },
@@ -622,6 +640,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Servicios empresariales',
       parent: null,
+      iconUrl: '/icons/category/empresariales.png',
       children: [
          { name: 'Empresas corporativas', parent: 'Servicios empresariales' },
          {
@@ -782,6 +801,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Óptica',
       parent: null,
+      iconUrl: '/icons/category/optica.png',
       children: [
          { name: 'Ópticas', parent: 'Óptica' },
          { name: 'Lentes de sol', parent: 'Óptica' },
@@ -790,6 +810,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Educación',
       parent: null,
+      iconUrl: '/icons/category/educacion.png',
       children: [
          { name: 'Centros educativos', parent: 'Educación' },
          {
@@ -806,6 +827,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Inmobiliaria',
       parent: null,
+      iconUrl: '/icons/category/inmobiliaria.png',
       children: [
          { name: 'Agencias inmobiliarias', parent: 'Inmobiliaria' },
          { name: 'Residencias compartidas', parent: 'Inmobiliaria' },
@@ -826,6 +848,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Servicios Jurídicos',
       parent: null,
+      iconUrl: '/icons/category/serviciosJuridicos.png',
       children: [
          { name: 'Asesorías legales', parent: 'Servicios Jurídicos' },
          { name: 'Servicios jurídicos', parent: 'Servicios Jurídicos' },
@@ -867,6 +890,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Centros comerciales',
       parent: null,
+      iconUrl: '/icons/category/centrosComerciales.png',
       children: [
          {
             name: 'Centros comerciales y tiendas especiales',
@@ -880,6 +904,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Proveedores de Internet',
       parent: null,
+      iconUrl: '/icons/category/proveedoresInternet.png',
       children: [
          {
             name: 'Empresas de desarrollo de software',
@@ -918,6 +943,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Turismo',
       parent: null,
+      iconUrl: '/icons/category/turismo.png',
       children: [
          { name: 'Hoteles', parent: 'Turismo' },
          { name: 'Agencias de viajes', parent: 'Turismo' },
@@ -929,6 +955,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Finanzas',
       parent: null,
+      iconUrl: '/icons/category/finanzas.png',
       children: [
          { name: 'Cajeros automáticos', parent: 'Finanzas' },
          { name: 'Cambio de divisas', parent: 'Finanzas' },
@@ -944,6 +971,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Lugares de interés cultural',
       parent: null,
+      iconUrl: '/icons/category/interesCultural.png',
       children: [
          {
             name: 'Templos, catedrales, iglesias',
@@ -959,6 +987,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Servicios Funerarios',
       parent: null,
+      iconUrl: '/icons/category/serviciosFunerarios.png',
       children: [
          { name: 'Funerarias', parent: 'Servicios Funerarios' },
          { name: 'Cementerios', parent: 'Servicios Funerarios' },
@@ -969,6 +998,7 @@ export const categoriesSeedData: CategorySeed[] = [
    {
       name: 'Fiestas y eventos',
       parent: null,
+      iconUrl: '/icons/category/fiestas.png',
       children: [
          { name: 'Chacras', parent: 'Fiestas y eventos' },
          { name: 'Salones de fiesta', parent: 'Fiestas y eventos' },

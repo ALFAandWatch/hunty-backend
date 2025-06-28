@@ -1,5 +1,5 @@
 import { AppDataSource } from '../data-source';
-import { Empresa } from '../entities/EmpresaUsuario';
+import { EmpresaUsuario } from '../entities/EmpresaUsuario';
 import { Usuario } from '../entities/Usuario';
 import bcrypt from 'bcryptjs';
 
@@ -25,7 +25,7 @@ export const registerEmpresaService = async (
    email: string,
    password: string
 ) => {
-   const empresaRepository = AppDataSource.getRepository(Empresa);
+   const empresaRepository = AppDataSource.getRepository(EmpresaUsuario);
 
    const existingEmpresa = await empresaRepository.findOne({
       where: { email },
@@ -61,7 +61,7 @@ export const loginUserService = async (email: string, password: string) => {
 };
 
 export const loginEmpresaService = async (email: string, password: string) => {
-   const empresaRepository = AppDataSource.getRepository(Empresa);
+   const empresaRepository = AppDataSource.getRepository(EmpresaUsuario);
 
    const empresa = await empresaRepository.findOne({ where: { email } });
    if (!empresa) {

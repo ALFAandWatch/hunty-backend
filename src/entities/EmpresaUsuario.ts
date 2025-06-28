@@ -6,6 +6,7 @@ import {
    UpdateDateColumn,
    BaseEntity,
 } from 'typeorm';
+import { UserRole } from '../enums/UserRole';
 
 @Entity()
 export class EmpresaUsuario extends BaseEntity {
@@ -24,8 +25,13 @@ export class EmpresaUsuario extends BaseEntity {
    @Column({ nullable: true })
    direccion?: string;
 
-   @Column({ default: 'empresa' })
-   readonly role: string = 'empresa';
+   @Column({
+      type: 'enum',
+      enum: UserRole,
+      default: UserRole.EMPRESA,
+      enumName: 'user_role_enum', // mismo nombre para mantener un único enum en la DB
+   })
+   role: UserRole;
 
    @CreateDateColumn()
    createdAt!: Date;
