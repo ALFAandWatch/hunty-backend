@@ -13,10 +13,8 @@ import { EmpresaUsuario } from '../entities/EmpresaUsuario';
 
 /********************** REGISTER USER *********************************/
 export const registerUserController = async (req: Request, res: Response) => {
-   const { email, password } = req.body;
-
    try {
-      const result = await registerUserService(email, password);
+      const result = await registerUserService(req.body);
       res.status(201).json(result);
       return;
    } catch (error: any) {

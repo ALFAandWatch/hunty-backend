@@ -1,20 +1,27 @@
 import { AppDataSource } from '../data-source';
+import { RegisterUserDTO } from '../DTOs/RegisterUserDTO';
 import { EmpresaUsuario } from '../entities/EmpresaUsuario';
 import { Usuario } from '../entities/Usuario';
 import bcrypt from 'bcryptjs';
 
-export const registerUserService = async (email: string, password: string) => {
+export const registerUserService = async (data: RegisterUserDTO) => {
    const usuarioRepository = AppDataSource.getRepository(Usuario);
 
-   const existingUser = await usuarioRepository.findOne({ where: { email } });
+   const existingUser = await usuarioRepository.findOne({
+      where: { email: data.email },
+   });
    if (existingUser) {
       throw new Error('El usuario ya existe');
    }
 
-   const hashedPassword = await bcrypt.hash(password, 10);
+   const hashedPassword = await bcrypt.hash(data.password, 10);
+
    const newUser = usuarioRepository.create({
-      email,
+      email: data.email,
       password: hashedPassword,
+      nombre: data.nombre,
+      celular: data.celular,
+      role: data.role,
    });
 
    await usuarioRepository.save(newUser);

@@ -16,11 +16,14 @@ export class Usuario extends BaseEntity {
    @Column({ unique: true })
    email: string;
 
+   @Column({ nullable: true })
+   nombre: string;
+
    @Column()
    password: string;
 
-   @Column({ nullable: true })
-   nombre?: string;
+   @Column()
+   celular: string;
 
    @Column({
       type: 'enum',
