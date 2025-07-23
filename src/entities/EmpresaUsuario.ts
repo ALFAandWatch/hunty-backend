@@ -29,7 +29,7 @@ export class EmpresaUsuario extends BaseEntity {
       type: 'enum',
       enum: UserRole,
       default: UserRole.EMPRESA,
-      enumName: 'user_role_enum', // mismo nombre para mantener un único enum en la DB
+      enumName: 'user_role_enum',
    })
    role: UserRole;
 
