@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm';
 import { Usuario } from './entities/Usuario';
 import { Category } from './entities/Category';
 import { Departamento } from './entities/Departamento';
-import { EmpresaPerfil } from './entities/EmpresaPerfil';
+import { EmpresaPerfil } from './entities/Empresa';
 import { EmpresaUsuario } from './entities/EmpresaUsuario';
 
 export const AppDataSource = new DataSource({

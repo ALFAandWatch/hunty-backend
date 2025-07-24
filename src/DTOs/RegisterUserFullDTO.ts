@@ -1,8 +1,9 @@
 import { UserRole } from '../enums/UserRole';
 
-export interface RegisterUserDTO {
+export interface RegisterUserFullDTO {
    nombre: string;
+   email: string;
+   password: string;
    celular: string;
    role: UserRole;
-   credencialId: string;
 }

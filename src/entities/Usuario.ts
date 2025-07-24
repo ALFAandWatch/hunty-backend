@@ -5,25 +5,22 @@ import {
    CreateDateColumn,
    UpdateDateColumn,
    BaseEntity,
+   OneToOne,
+   JoinColumn,
 } from 'typeorm';
 import { UserRole } from '../enums/UserRole';
+import { Credencial } from './Credencial';
 
 @Entity()
 export class Usuario extends BaseEntity {
    @PrimaryGeneratedColumn('uuid')
    id: string;
 
-   @Column({ unique: true })
-   email: string;
-
    @Column({ nullable: true })
    nombre: string;
 
    @Column()
-   password: string;
-
-   @Column()
-   celular: string;
+   celular?: string;
 
    @Column({
       type: 'enum',
@@ -38,4 +35,11 @@ export class Usuario extends BaseEntity {
 
    @UpdateDateColumn()
    updatedAt: Date;
+
+   @OneToOne(() => Credencial, (credencial) => credencial.usuario, {
+      cascade: true,
+      eager: true,
+   })
+   @JoinColumn({ name: 'credencialId' })
+   credencial: Credencial;
 }

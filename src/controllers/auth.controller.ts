@@ -1,21 +1,41 @@
 import { Request, Response } from 'express';
 import {
    registerUserService,
-   registerEmpresaService,
-   loginEmpresaService,
-   loginUserService,
+   registerEmpresaWithUsuarioService,
+   createEmpresaService,
 } from '../services/auth.service';
 
 import { generateToken } from '../utils/jwt';
 
 import { Usuario } from '../entities/Usuario';
-import { EmpresaUsuario } from '../entities/EmpresaUsuario';
 
 /********************** REGISTER USER *********************************/
 export const registerUserController = async (req: Request, res: Response) => {
    try {
-      const result = await registerUserService(req.body);
-      res.status(201).json(result);
+      const { email, password, nombre, celular, role } = req.body;
+
+      if (!email || !password || !nombre) {
+         res.status(400).json({ message: 'Faltan campos obligatorios' });
+         return;
+      }
+
+      const nuevoUsuario = await registerUserService({
+         email,
+         password,
+         nombre,
+         celular,
+         role,
+      });
+
+      res.status(201).json({
+         message: 'Usuario registrado con éxito',
+         usuario: {
+            id: nuevoUsuario.usuario.usuario.id,
+            nombre: nuevoUsuario.usuario.usuario.nombre,
+            celular: nuevoUsuario.usuario.usuario.celular,
+            role: nuevoUsuario.usuario.usuario.role,
+         },
+      });
       return;
    } catch (error: any) {
       res.status(400).json({ message: error.message });
@@ -23,54 +43,78 @@ export const registerUserController = async (req: Request, res: Response) => {
    }
 };
 
-/********************** REGISTER EMPRESA *********************************/
-export const registerEmpresaController = async (
+/********************** REGISTER EMPRESA SIN USUSARIO *********************************/
+export const registerEmpresaOnlyController = async (
    req: Request,
    res: Response
 ) => {
-   const { email, password } = req.body;
+   const data = req.body;
 
    try {
-      const result = await registerEmpresaService(email, password);
+      const result = await createEmpresaService(data);
       res.status(201).json(result);
    } catch (error: any) {
       res.status(400).json({ message: error.message });
    }
 };
 
-/********************** LOGIN  *********************************/
-export const loginController = async (req: Request, res: Response) => {
-   const { email, password } = req.body;
-
+/********************** REGISTER EMPRESA SIN USUSARIO *********************************/
+export const registerEmpresaWithUsuarioController = async (
+   req: Request,
+   res: Response
+) => {
    try {
-      // Intenta login como usuario
-      const usuario: Usuario = await loginUserService(email, password);
-      const token = generateToken({
-         id: usuario.id,
-         email: usuario.email,
-         role: 'usuario',
-      });
-      res.status(200).json({ message: 'Login exitoso!', usuario, token });
-      return;
-   } catch (_) {
-      // Si no es usuario, intenta como empresa
-      try {
-         const empresa: EmpresaUsuario = await loginEmpresaService(
-            email,
-            password
-         );
-         const token = generateToken({
-            id: empresa.id,
-            email: empresa.email,
-            role: 'empresa',
-         });
-         res.status(200).json({ message: 'Login exitoso!', empresa, token });
-         return;
-      } catch (error: any) {
-         res.status(401).json({
-            message: error.message || 'Credenciales inválidas',
-         });
+      const {
+         nombreFantasia,
+         plan,
+         perfilEspecial,
+         slugUrl,
+         apellido,
+         cedula,
+         razonSocial,
+         rut,
+         email,
+         password,
+         nombre,
+         celular,
+         role,
+      } = req.body;
+
+      if (!email || !password || !nombre) {
+         res.status(400).json({ message: 'Faltan campos obligatorios' });
          return;
       }
+
+      const dataEmpresa = {
+         nombreFantasia,
+         plan,
+         perfilEspecial,
+         slugUrl,
+         apellido,
+         cedula,
+         razonSocial,
+         rut,
+      };
+
+      const userData = {
+         email,
+         password,
+         nombre,
+         celular,
+         role,
+      };
+
+      const result = await registerEmpresaWithUsuarioService(
+         dataEmpresa,
+         userData
+      );
+
+      res.status(201).json({
+         message: 'Empresa y usuario registrados con éxito',
+         empresa: result.newEmpresa,
+         usuario: result.newUsuario,
+      });
+   } catch (error: any) {
+      res.status(400).json({ message: error.message });
    }
 };

@@ -1,5 +1,5 @@
 import { In, MoreThanOrEqual } from 'typeorm';
-import { EmpresaPerfil } from '../entities/EmpresaPerfil';
+import { EmpresaPerfil } from '../entities/Empresa';
 
 interface EmpresaFilterOptions {
    abiertoAhora?: boolean;

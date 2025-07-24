@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { EmpresaPerfil } from '../entities/EmpresaPerfil';
+import { EmpresaPerfil } from '../entities/Empresa';
 
 const formasDePagoDisponibles = [
    'Efectivo',
