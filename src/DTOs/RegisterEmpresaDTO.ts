@@ -2,7 +2,7 @@ import { PerfilEspecial } from '../enums/PerfilEspecial';
 
 export interface RegisterEmpresaDTO {
    nombreFantasia: string;
-   plan: string;
+   plan: number;
    perfilEspecial?: PerfilEspecial;
    slugUrl: string;
    apellido: string;

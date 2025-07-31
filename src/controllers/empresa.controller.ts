@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import {
+   deleteEmpresaService,
    getEmpresaByIdService,
    getEmpresasService,
 } from '../services/empresa.service';
@@ -41,6 +42,25 @@ export const getEmpresaById = async (req: Request, res: Response) => {
       return;
    } catch (error) {
       res.status(404).json({ message: 'Empresa no encontrada' });
+      return;
+   }
+};
+
+export const deleteEmpresa = async (req: Request, res: Response) => {
+   const { id } = req.params;
+
+   try {
+      await deleteEmpresaService(Number(id));
+      res.status(200).json({ message: 'Empresa eliminada correctamente' });
+      return;
+   } catch (error: any) {
+      if (error.message === 'Empresa no encontrada') {
+         res.status(404).json({ message: error.message });
+         return;
+      }
+
+      console.error('Error al eliminar empresa:', error);
+      res.status(500).json({ message: 'Error interno del servidor' });
       return;
    }
 };

@@ -3,8 +3,8 @@ import { DataSource } from 'typeorm';
 import { Usuario } from './entities/Usuario';
 import { Category } from './entities/Category';
 import { Departamento } from './entities/Departamento';
-import { EmpresaPerfil } from './entities/Empresa';
-import { EmpresaUsuario } from './entities/EmpresaUsuario';
+import { Empresa } from './entities/Empresa';
+import { Credencial } from './entities/Credencial';
 
 export const AppDataSource = new DataSource({
    type: 'postgres',
@@ -16,7 +16,7 @@ export const AppDataSource = new DataSource({
    synchronize: true,
    dropSchema: false,
    logging: false,
-   entities: [EmpresaUsuario, Usuario, Category, Departamento, EmpresaPerfil],
+   entities: [Usuario, Category, Departamento, Empresa, Credencial],
    migrations: [],
    subscribers: [],
 });

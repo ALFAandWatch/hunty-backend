@@ -1,5 +1,6 @@
 import { In, MoreThanOrEqual } from 'typeorm';
-import { EmpresaPerfil } from '../entities/Empresa';
+import { Empresa } from '../entities/Empresa';
+import { AppDataSource } from '../data-source';
 
 interface EmpresaFilterOptions {
    abiertoAhora?: boolean;
@@ -38,7 +39,7 @@ export const getEmpresasService = async (options: EmpresaFilterOptions) => {
       where.formasDePago = In([formaDePago]);
    }
 
-   const [empresas, total] = await EmpresaPerfil.findAndCount({
+   const [empresas, total] = await Empresa.findAndCount({
       where,
       take,
       skip,
@@ -54,11 +55,23 @@ export const getEmpresasService = async (options: EmpresaFilterOptions) => {
 };
 
 export const getEmpresaByIdService = async (id: number) => {
-   const empresa = await EmpresaPerfil.findOneBy({ id });
+   const empresa = await Empresa.findOneBy({ id });
 
    if (!empresa) {
       throw new Error('Empresa no encontrada');
    }
 
    return empresa;
+};
+
+export const deleteEmpresaService = async (id: number): Promise<void> => {
+   const empresaRepo = AppDataSource.getRepository(Empresa);
+
+   const empresa = await empresaRepo.findOne({ where: { id } });
+
+   if (!empresa) {
+      throw new Error('Empresa no encontrada');
+   }
+
+   await empresaRepo.remove(empresa);
 };

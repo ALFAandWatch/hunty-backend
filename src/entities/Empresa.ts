@@ -18,12 +18,13 @@ export class Empresa extends BaseEntity {
    nombreFantasia: string;
 
    @Column()
-   plan: string;
+   plan: number;
 
    @Column({
       type: 'enum',
       enum: PerfilEspecial,
       enumName: 'perfil_especial_enum',
+      nullable: true,
    })
    perfilEspecial?: PerfilEspecial;
 
@@ -60,7 +61,7 @@ export class Empresa extends BaseEntity {
    @Column({ nullable: true })
    imagenUrl?: string;
 
-   @Column()
+   @Column({ nullable: true })
    departamento?: string;
 
    @Column({ nullable: true })

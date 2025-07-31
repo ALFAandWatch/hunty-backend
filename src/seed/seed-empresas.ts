@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { EmpresaPerfil } from '../entities/Empresa';
+import { Empresa } from '../entities/Empresa';
+import { PerfilEspecial } from '../enums/PerfilEspecial';
 
 const formasDePagoDisponibles = [
    'Efectivo',
@@ -16,8 +17,15 @@ const departamentos = [
    'Salto',
 ];
 
+const planes = [0, 900, 12500, 2500, 4200, 7000, 4500];
+
 export const seedEmpresasIfEmpty = async () => {
-   const count = await EmpresaPerfil.count();
+   const perfilEspecial = (): PerfilEspecial => {
+      const values = Object.values(PerfilEspecial);
+      return values[Math.floor(Math.random() * values.length)];
+   };
+
+   const count = await Empresa.count();
    if (count > 0) {
       console.log('✅ Empresas ya existen. Seeder omitido.');
       return;
@@ -26,14 +34,20 @@ export const seedEmpresasIfEmpty = async () => {
    const puntuacion = faker.number.float({ min: 1, max: 5, fractionDigits: 1 });
 
    for (let i = 0; i < 50; i++) {
-      const empresa = new EmpresaPerfil();
-      empresa.nombre = faker.company.name();
+      const empresa = new Empresa();
+      empresa.nombreFantasia = faker.company.name();
+      empresa.plan = faker.helpers.arrayElement(planes);
+      empresa.slugUrl = faker.internet.url();
+      empresa.perfilEspecial = perfilEspecial();
+      empresa.apellido = faker.person.lastName();
+      empresa.cedula = faker.string.numeric();
+      empresa.razonSocial = faker.string.alpha();
+      empresa.rut = faker.string.numeric();
       empresa.descripcion = faker.company.catchPhrase();
       empresa.direccion = faker.location.streetAddress();
       empresa.telefono = faker.phone.number();
       empresa.imagenUrl = faker.image.urlPicsumPhotos();
       empresa.departamento = faker.helpers.arrayElement(departamentos);
-      empresa.esPremium = faker.datatype.boolean();
       empresa.abiertoAhora = faker.datatype.boolean();
       empresa.puntuacion = Math.round(puntuacion * 10) / 10;
       empresa.formasDePago = faker.helpers.arrayElements(
@@ -43,7 +57,7 @@ export const seedEmpresasIfEmpty = async () => {
       empresa.sitioWeb = faker.internet.url();
 
       await empresa.save();
-      console.log(`✅ Empresa creada: ${empresa.nombre}`);
+      console.log(`✅ Empresa creada: ${empresa.nombreFantasia}`);
    }
 
    console.log('🎉 Empresas generadas con éxito');
