@@ -14,6 +14,8 @@ export class Empresa extends BaseEntity {
    @PrimaryGeneratedColumn()
    id: number;
 
+   // SECCION PERFIL ======================================
+
    @Column()
    nombreFantasia: string;
 
@@ -47,32 +49,76 @@ export class Empresa extends BaseEntity {
    @JoinColumn()
    usuario?: Usuario;
 
-   //........
+   // SECCION INFORMACION ======================================
 
    @Column({ nullable: true })
-   descripcion?: string;
+   subCategoria?: string;
 
-   @Column({ nullable: true })
-   direccion?: string;
-
-   @Column({ nullable: true })
-   telefono?: string;
-
-   @Column({ nullable: true })
-   imagenUrl?: string;
+   @Column('simple-array', { nullable: true })
+   subcategoriaOpcion?: string[];
 
    @Column({ nullable: true })
    departamento?: string;
 
    @Column({ nullable: true })
-   sitioWeb?: string;
+   ciudad?: string;
+
+   @Column({ nullable: true })
+   direccion?: string;
+
+   @Column({ nullable: true })
+   descripcion?: string;
+
+   @Column({ nullable: true })
+   telefono?: string;
+
+   @Column({ nullable: true })
+   whatsapp?: string;
+
+   @Column({ nullable: true })
+   web?: string;
+
+   @Column('json', { nullable: true })
+   horarioAtencion?: {
+      [dia: string]: {
+         manana: { inicio: string; fin: string };
+         tarde: { inicio: string; fin: string };
+      };
+   };
+
+   @Column('json', { nullable: true })
+   mediosPago: string[];
+
+   @Column({ nullable: true })
+   linkInstagram?: string;
+
+   @Column({ nullable: true })
+   linkFacebook?: string;
+
+   @Column({ nullable: true })
+   linkTiktok?: string;
+
+   @Column({ nullable: true })
+   linkYoutube?: string;
+
+   @Column({ nullable: true })
+   linkX?: string;
+
+   // SECCION IMAGENES ======================================
+   @Column({ nullable: true })
+   logo: string; // URL del logo
+
+   @Column({ nullable: true })
+   banner: string; // URL del banner
+
+   @Column('simple-array', { nullable: true })
+   album: string[]; // Array de URLs de imágenes
+
+   //........
 
    @Column({ default: false })
    abiertoAhora?: boolean;
 
    @Column({ default: 0, type: 'float' })
    puntuacion?: number;
-
-   @Column('simple-array', { default: '' })
-   formasDePago?: string[];
 }

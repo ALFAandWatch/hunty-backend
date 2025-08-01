@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import {
    deleteEmpresaService,
+   editarEmpresaService,
    getEmpresaByIdService,
    getEmpresasService,
 } from '../services/empresa.service';
@@ -43,6 +44,22 @@ export const getEmpresaById = async (req: Request, res: Response) => {
    } catch (error) {
       res.status(404).json({ message: 'Empresa no encontrada' });
       return;
+   }
+};
+
+export const editarEmpresa = async (req: Request, res: Response) => {
+   try {
+      const empresaId = req.params.id;
+      const datos = req.body;
+
+      const empresaActualizada = await editarEmpresaService(
+         Number(empresaId),
+         datos
+      );
+      res.json(empresaActualizada);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ mensaje: 'Error al editar la empresa' });
    }
 };
 

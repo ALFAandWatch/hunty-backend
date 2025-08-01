@@ -24,7 +24,6 @@ export const getEmpresasService = async (options: EmpresaFilterOptions) => {
    const take = limit;
    const skip = (page - 1) * take;
 
-   // Vamos a usar un array de condiciones en vez de un solo objeto, para mayor flexibilidad
    const where: any = {};
 
    if (abiertoAhora !== undefined) where.abiertoAhora = abiertoAhora;
@@ -33,9 +32,7 @@ export const getEmpresasService = async (options: EmpresaFilterOptions) => {
       where.puntuacion = MoreThanOrEqual(puntuacionMin);
    }
 
-   // 👇 Filtrado para una forma de pago específica dentro del array `formasDePago`
    if (formaDePago) {
-      // Esto hará un LIKE para buscar coincidencias en el string del array
       where.formasDePago = In([formaDePago]);
    }
 
@@ -43,7 +40,7 @@ export const getEmpresasService = async (options: EmpresaFilterOptions) => {
       where,
       take,
       skip,
-      order: { puntuacion: 'DESC' },
+      order: { nombreFantasia: 'ASC' },
    });
 
    return {
@@ -62,6 +59,25 @@ export const getEmpresaByIdService = async (id: number) => {
    }
 
    return empresa;
+};
+
+export const editarEmpresaService = async (
+   id: number,
+   nuevosDatos: Partial<Empresa>
+) => {
+   const repo = AppDataSource.getRepository(Empresa);
+
+   const empresa = await repo.findOne({ where: { id } });
+
+   if (!empresa) {
+      throw new Error('Empresa no encontrada');
+   }
+
+   repo.merge(empresa, nuevosDatos);
+
+   const empresaActualizada = await repo.save(empresa);
+
+   return empresaActualizada;
 };
 
 export const deleteEmpresaService = async (id: number): Promise<void> => {
