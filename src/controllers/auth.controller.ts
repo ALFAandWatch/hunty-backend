@@ -1,13 +1,10 @@
 import { Request, Response } from 'express';
 import {
    registerUserService,
-   registerEmpresaWithUsuarioService,
+   createEmpresaConUsuarioService,
    createEmpresaService,
+   createEmpresaSinUsuarioService,
 } from '../services/auth.service';
-
-import { generateToken } from '../utils/jwt';
-
-import { Usuario } from '../entities/Usuario';
 
 /********************** REGISTER USER *********************************/
 export const registerUserController = async (req: Request, res: Response) => {
@@ -49,11 +46,13 @@ export const registerEmpresaOnlyController = async (
    res: Response
 ) => {
    const data = req.body;
+   console.log('REQ BODY:', req.body);
 
    try {
-      const result = await createEmpresaService(data);
+      const result = await createEmpresaSinUsuarioService(data);
       res.status(201).json(result);
    } catch (error: any) {
+      console.error(error);
       res.status(400).json({ message: error.message });
    }
 };
@@ -63,48 +62,51 @@ export const registerEmpresaWithUsuarioController = async (
    req: Request,
    res: Response
 ) => {
-   try {
-      const {
-         nombreFantasia,
-         plan,
-         perfilEspecial,
-         slugUrl,
-         apellido,
-         cedula,
-         razonSocial,
-         rut,
-         email,
-         password,
-         nombre,
-         celular,
-         role,
-      } = req.body;
+   const data = req.body;
+   console.log('REQ BODY:', req.body);
 
-      if (!email || !password || !nombre) {
+   try {
+      if (!data.email || !data.password || !data.nombre) {
          res.status(400).json({ message: 'Faltan campos obligatorios' });
          return;
       }
 
       const dataEmpresa = {
-         nombreFantasia,
-         plan,
-         perfilEspecial,
-         slugUrl,
-         apellido,
-         cedula,
-         razonSocial,
-         rut,
+         nombreFantasia: data.nombreFantasia,
+         plan: data.plan,
+         perfilEspecial: data.perfilEspecial || 'none',
+         slugUrl: data.slugUrl,
+         apellido: data.apellido || '',
+         cedula: data.cedula || '',
+         razonSocial: data.razonSocial || '',
+         rut: data.rut || '',
+         subCategoria: data.subCategoria || '',
+         departamento: data.departamento || '',
+         ciudad: data.ciudad || '',
+         direccion: data.direccion || '',
+         descripcion: data.descripcion || '',
+         telefono: data.telefono || '',
+         whatsapp: data.whatsapp || '',
+         web: data.web || '',
+         linkInstagram: data.linkInstagram || '',
+         linkFacebook: data.linkFacebook || '',
+         linkYoutube: data.linkYoutube || '',
+         linkTiktok: data.linkTiktok || '',
+         linkX: data.linkX || '',
+         logo: data.logo || '',
+         banner: data.banner || '',
+         album: data.album || [],
       };
 
       const userData = {
-         email,
-         password,
-         nombre,
-         celular,
-         role,
+         email: data.email,
+         password: data.password,
+         nombre: data.nombre,
+         celular: data.celular,
+         role: data.role,
       };
 
-      const result = await registerEmpresaWithUsuarioService(
+      const result = await createEmpresaConUsuarioService(
          dataEmpresa,
          userData
       );
@@ -115,6 +117,7 @@ export const registerEmpresaWithUsuarioController = async (
          usuario: result.newUsuario,
       });
    } catch (error: any) {
+      console.log(error);
       res.status(400).json({ message: error.message });
    }
 };

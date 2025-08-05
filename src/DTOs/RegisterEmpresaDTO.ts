@@ -9,12 +9,12 @@ export interface Horarios {
    [dia: string]: HorarioDia;
 }
 
-export class EmpresaDTO {
+export class RegisterEmpresaDTO {
    // Campos básicos
-   nombreFantasia?: string;
-   plan?: number;
+   nombreFantasia: string;
+   plan: number;
    perfilEspecial?: PerfilEspecial;
-   slugUrl?: string;
+   slugUrl: string;
    apellido?: string;
    cedula?: string;
    razonSocial?: string;
@@ -25,7 +25,7 @@ export class EmpresaDTO {
 
    // Datos opcionales y ampliados
    subCategoria?: string;
-   subcategoriaOpcion?: string[];
+   subCategoriaOpcion?: string[];
    departamento?: string;
    ciudad?: string;
    direccion?: string;

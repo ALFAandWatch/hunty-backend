@@ -17,7 +17,7 @@ export class Usuario extends BaseEntity {
    id: string;
 
    @Column({ nullable: true })
-   nombre: string;
+   nombre?: string;
 
    @Column()
    celular?: string;

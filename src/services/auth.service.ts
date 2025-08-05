@@ -4,20 +4,24 @@ import { RegisterUserDTO } from '../DTOs/RegisterUserDTO';
 import { Credencial } from '../entities/Credencial';
 import { Usuario } from '../entities/Usuario';
 import bcrypt from 'bcryptjs';
-import { UserRole } from '../enums/UserRole';
 import { RegisterEmpresaDTO } from '../DTOs/RegisterEmpresaDTO';
 import { Empresa } from '../entities/Empresa';
 import { DataSource, EntityManager } from 'typeorm';
 import { RegisterUserFullDTO } from '../DTOs/RegisterUserFullDTO';
+import { cleanEmptyStrings } from '../utils/cleanEmptyStrings';
+import { generarHorarioAtencionVacio } from '../utils/generarHorarioAtencionVacio';
 
 //======= SERVICIOS ORQUESTADORES ==========
 //==========================================
-
 export const registerUserService = async (
    data: RegisterUserFullDTO,
    manager?: EntityManager
 ) => {
    const { email, password, nombre, celular, role } = data;
+
+   if (!manager) {
+      throw new Error('Transaction manager is required');
+   }
 
    const credencial = await createCredencialService(
       { email, password },
@@ -37,54 +41,107 @@ export const registerUserService = async (
    return { usuario, credencial };
 };
 
-export const registerEmpresaWithUsuarioService = async (
-   empresaData: RegisterEmpresaDTO,
-   userData: RegisterUserFullDTO,
-   manager?: EntityManager
-): Promise<{ newEmpresa: Empresa; newUsuario: Usuario }> => {
-   const credencial = await createCredencialService(
-      { email: userData.email, password: userData.password },
-      manager
-   );
+export const createEmpresaConUsuarioService = async (
+   data: RegisterEmpresaDTO,
+   usuarioData: RegisterUserFullDTO
+) => {
+   return await AppDataSource.transaction(async (manager) => {
+      const empresaRepository = manager.getRepository(Empresa);
 
-   const usuario = await createUserService(
-      {
-         nombre: userData.nombre,
-         celular: userData.celular,
-         role: userData.role,
-         credencialId: credencial.id,
-      },
-      manager
-   );
+      const cleanedData = cleanEmptyStrings(data);
 
-   const newUsuario = usuario.usuario;
+      cleanedData.subCategoriaOpcion = [];
+      cleanedData.horarioAtencion = generarHorarioAtencionVacio();
 
-   const empresa = await createEmpresaService(empresaData, newUsuario, manager);
+      const existingEmpresa = await empresaRepository.findOne({
+         where: { nombreFantasia: cleanedData.nombreFantasia },
+      });
 
-   const newEmpresa = empresa.empresa;
+      if (existingEmpresa) {
+         throw new Error('Ya existe una empresa con ese nombre');
+      }
 
-   return { newEmpresa, newUsuario };
+      // 👇 Primero crear la credencial
+      const credencial = await createCredencialService(
+         {
+            email: usuarioData.email,
+            password: usuarioData.password,
+         },
+         manager
+      );
+
+      // 👇 Luego agregarle el credentialId al objeto usuarioData
+      const nuevoUsuario = await createUserService(
+         {
+            ...usuarioData,
+            credencialId: credencial.id,
+         },
+         manager
+      );
+
+      // 👇 Crear empresa y asociar al usuario creado
+      const nuevaEmpresa = empresaRepository.create({
+         ...cleanedData,
+         usuario: nuevoUsuario.usuario,
+         mediosPago: Array.isArray(cleanedData.mediosPago)
+            ? cleanedData.mediosPago
+            : cleanedData.mediosPago
+            ? [cleanedData.mediosPago]
+            : [],
+      });
+
+      await empresaRepository.save(nuevaEmpresa);
+
+      const savedEmpresa = await empresaRepository.findOne({
+         where: { id: nuevaEmpresa.id },
+         relations: ['usuario'],
+      });
+
+      return {
+         message: 'Empresa registrada con éxito',
+         newEmpresa: savedEmpresa,
+         newUsuario: nuevoUsuario,
+      };
+   });
+};
+
+export const createEmpresaSinUsuarioService = async (
+   data: RegisterEmpresaDTO
+) => {
+   const empresaRepository = AppDataSource.getRepository(Empresa);
+
+   const cleanedData = cleanEmptyStrings(data);
+   cleanedData.horarioAtencion = generarHorarioAtencionVacio();
+
+   const nuevaEmpresa = empresaRepository.create(cleanedData);
+   await empresaRepository.save(nuevaEmpresa);
+
+   return nuevaEmpresa;
 };
 
 //======= SERVICIOS BASICOS ================
 //==========================================
+
 export const createUserService = async (
    data: RegisterUserDTO,
-   manager?: EntityManager
+   manager: EntityManager
 ) => {
-   const usuarioRepository = manager
-      ? manager.getRepository(Usuario)
-      : AppDataSource.getRepository(Usuario);
+   const userRepo = manager.getRepository(Usuario);
 
-   const newUser = usuarioRepository.create({
-      nombre: data.nombre,
-      celular: data.celular,
-      role: data.role || UserRole.USUARIO,
-      credencial: { id: data.credencialId },
+   data.celular = data.celular || '';
+
+   const credencial = await manager.getRepository(Credencial).findOneByOrFail({
+      id: data.credencialId,
    });
 
-   await usuarioRepository.save(newUser);
-   return { message: 'Usuario registrado con éxito', usuario: newUser };
+   const nuevoUsuario = userRepo.create({
+      ...data,
+      credencial,
+   });
+
+   await userRepo.save(nuevoUsuario);
+
+   return { usuario: nuevoUsuario };
 };
 
 export const createCredencialService = async (
@@ -129,9 +186,18 @@ export const createEmpresaService = async (
       throw new Error('Ya existe una empresa con ese nombre');
    }
 
+   if (!usuario) {
+      throw new Error('No se encontró el usuario asociado.');
+   }
+
    const nuevaEmpresa = empresaRepository.create({
       ...data,
       usuario,
+      mediosPago: Array.isArray(data.mediosPago)
+         ? data.mediosPago
+         : data.mediosPago
+         ? [data.mediosPago]
+         : [],
    });
 
    await empresaRepository.save(nuevaEmpresa);

@@ -98,6 +98,12 @@ export const seedEmpresasIfEmpty = async () => {
          },
       };
 
+      empresa.apellido = '';
+      empresa.subCategoriaOpcion = [];
+      empresa.logo = faker.image.avatar();
+      empresa.banner = faker.image.urlPicsumPhotos({ width: 800, height: 400 });
+      empresa.album = [];
+
       await empresa.save();
       console.log(`✅ Empresa creada: ${empresa.nombreFantasia}`);
    }

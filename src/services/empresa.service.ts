@@ -41,6 +41,7 @@ export const getEmpresasService = async (options: EmpresaFilterOptions) => {
       take,
       skip,
       order: { nombreFantasia: 'ASC' },
+      relations: ['usuario'],
    });
 
    return {
@@ -52,7 +53,10 @@ export const getEmpresasService = async (options: EmpresaFilterOptions) => {
 };
 
 export const getEmpresaByIdService = async (id: number) => {
-   const empresa = await Empresa.findOneBy({ id });
+   const empresa = await Empresa.findOne({
+      where: { id },
+      relations: ['usuario', 'usuario.credencial'],
+   });
 
    if (!empresa) {
       throw new Error('Empresa no encontrada');

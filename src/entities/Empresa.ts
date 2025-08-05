@@ -19,7 +19,7 @@ export class Empresa extends BaseEntity {
    @Column()
    nombreFantasia: string;
 
-   @Column()
+   @Column({ type: 'int' })
    plan: number;
 
    @Column({
@@ -33,17 +33,17 @@ export class Empresa extends BaseEntity {
    @Column()
    slugUrl: string;
 
-   @Column()
-   apellido: string;
+   @Column({ nullable: true })
+   apellido?: string;
 
    @Column()
-   cedula: string;
+   cedula?: string;
 
-   @Column()
-   razonSocial: string;
+   @Column({ nullable: true })
+   razonSocial?: string;
 
-   @Column()
-   rut: string;
+   @Column({ nullable: true })
+   rut?: string;
 
    @OneToOne(() => Usuario, { nullable: true })
    @JoinColumn()
@@ -51,31 +51,31 @@ export class Empresa extends BaseEntity {
 
    // SECCION INFORMACION ======================================
 
-   @Column({ nullable: true })
+   @Column()
    subCategoria?: string;
 
    @Column('simple-array', { nullable: true })
-   subcategoriaOpcion?: string[];
+   subCategoriaOpcion?: string[];
 
-   @Column({ nullable: true })
+   @Column()
    departamento?: string;
 
-   @Column({ nullable: true })
+   @Column()
    ciudad?: string;
 
-   @Column({ nullable: true })
+   @Column()
    direccion?: string;
 
-   @Column({ nullable: true })
+   @Column()
    descripcion?: string;
 
-   @Column({ nullable: true })
+   @Column()
    telefono?: string;
 
-   @Column({ nullable: true })
+   @Column()
    whatsapp?: string;
 
-   @Column({ nullable: true })
+   @Column()
    web?: string;
 
    @Column('json', { nullable: true })
@@ -86,33 +86,33 @@ export class Empresa extends BaseEntity {
       };
    };
 
-   @Column('json', { nullable: true })
-   mediosPago: string[];
+   @Column('json')
+   mediosPago?: string[];
 
-   @Column({ nullable: true })
+   @Column()
    linkInstagram?: string;
 
-   @Column({ nullable: true })
+   @Column()
    linkFacebook?: string;
 
-   @Column({ nullable: true })
+   @Column()
    linkTiktok?: string;
 
-   @Column({ nullable: true })
+   @Column()
    linkYoutube?: string;
 
-   @Column({ nullable: true })
+   @Column()
    linkX?: string;
 
    // SECCION IMAGENES ======================================
    @Column({ nullable: true })
-   logo: string; // URL del logo
+   logo?: string; // URL del logo
 
    @Column({ nullable: true })
-   banner: string; // URL del banner
+   banner?: string; // URL del banner
 
    @Column('simple-array', { nullable: true })
-   album: string[]; // Array de URLs de imágenes
+   album?: string[]; // Array de URLs de imágenes
 
    //........
 
